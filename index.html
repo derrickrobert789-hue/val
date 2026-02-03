@@ -2,304 +2,299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Will you be my Valentine?</title>
-
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
+  <title>For Roy 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
+    :root{
+      --red:#e63946;
+      --bg1:#ff9a9e;
+      --bg2:#fad0c4;
+      --shadow:0 10px 30px rgba(0,0,0,.18);
     }
 
-    * { box-sizing: border-box; }
-
+    *{box-sizing:border-box}
     body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, sans-serif;
-      overflow: hidden;
-      padding: 16px;
-    }
-
-    /* FULL-SCREEN CONFETTI CANVAS */
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9999;
+      margin:0;
+      min-height:100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      padding: 20px;
     }
 
     .card {
-      width: min(720px, 92vw);
-      padding: 26px 22px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 18px 60px rgba(0,0,0,.15);
+      background:#fff;
+      width:min(900px, 100%);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
 
-    .art {
-      width: min(260px, 80vw);
-      margin: 0 auto 10px;
-      display: block;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
+    /* ----- HERO CAROUSEL ----- */
+    .hero {
+      position:relative;
+      height:320px;
+      overflow:hidden;
+      background:#000;
+    }
+    .slides {
+      display:flex;
+      width:400%;
+      height:100%;
+      transition:transform .7s ease-in-out;
+    }
+    .slide{
+      width:100%;
+      position:relative;
+      flex:0 0 100%;
+    }
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .hero .dots{
+      position:absolute;
+      bottom:14px;
+      left:0; right:0;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+    }
+    .dot{
+      width:8px; height:8px;
+      border-radius:50%;
+      background:rgba(255,255,255,.6);
+      border:1px solid rgba(255,255,255,.9);
+      cursor:pointer;
+    }
+    .dot.active{ background:#fff; }
+
+    /* ----- CONTENT ----- */
+    .body {
+      padding: 28px 24px 8px;
+    }
+    .heading {
+      color: var(--red);
+      font-size: clamp(1.6rem, 1.4rem + 1.2vw, 2rem);
+      margin: 0 0 14px;
+      text-align:center;
     }
 
-    h1 {
-      font-size: clamp(26px, 4vw, 44px);
-      margin: 12px 0 18px;
+    .letter {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.8;
+      margin: 0 auto 22px;
+      max-width: 720px;
+      background: #fff6f7;
+      border: 1px solid #ffd7dd;
+      border-radius: 16px;
+      padding: 18px 18px;
     }
 
-    .button-zone {
-      position: relative;
-      width: min(520px, 92%);
-      height: 150px;
-      margin: 0 auto;
-      touch-action: none;
+    .signature {
+      margin-top: 14px;
+      font-style: italic;
+      color: var(--red);
+      text-align: right;
     }
 
+    .cta {
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      margin: 8px 0 18px;
+    }
     button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px 24px;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 999px;
+      font-size: 1.05rem;
+      padding: 12px 22px;
       border: none;
+      border-radius: 28px;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.14);
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform .12s ease, background .12s ease;
+      transition: transform 0.18s ease, box-shadow .18s ease;
     }
+    .yes { background: var(--red); color: #fff; box-shadow: 0 6px 16px rgba(230,57,70,.35); }
+    .no  { background: #adb5bd; color: #fff; position: relative; }
+    button:hover { transform: translateY(-1px) scale(1.04); }
 
-    #yesBtn {
-      left: 18%;
-      background: var(--yes);
-      color: #fff;
+    /* ----- GALLERY ----- */
+    .gallery-wrap{
+      padding: 0 18px 24px;
     }
-    #yesBtn:hover { background: var(--yesHover); }
-
-    #noBtn {
-      left: 62%;
-      background: #e5e7eb;
-      color: #111827;
+    .gallery-title{
+      text-align:center;
+      color:#b02430;
+      margin: 8px 0 12px;
+      font-weight:600;
+      letter-spacing:.2px;
     }
-
-    .hint {
-      margin-top: 10px;
-      font-size: 13px;
-      opacity: .7;
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
     }
-
-    .result {
-      display: none;
-      margin-top: 18px;
-      animation: pop .35s ease;
+    .tile{
+      position:relative;
+      overflow:hidden;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      background:#f3f3f3;
+      aspect-ratio: 4/5;
     }
-
-    .result h2 {
-      font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0;
+    .tile img{
+      width:100%; height:100%;
+      object-fit:cover;
+      transition: transform .35s ease;
+      display:block;
     }
+    .tile:hover img{ transform: scale(1.05); }
 
-    .fireworks {
-      width: min(380px, 90vw);
-      margin: 0 auto;
-      display: block;
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 900px){
+      .hero{ height: 280px; }
+      .gallery{ grid-template-columns: repeat(3, 1fr); }
     }
-
-    @keyframes pop {
-      from { transform: scale(.96); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    @media (max-width: 640px){
+      .hero{ height: 230px; }
+      .gallery{ grid-template-columns: repeat(2, 1fr); }
+      .letter{ padding:16px; }
     }
   </style>
 </head>
-
 <body>
-  <canvas id="confettiCanvas"></canvas>
 
-  <main class="card">
-    <!-- ANIMAL WITH HEART -->
-    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
+  <div class="card">
+    <!-- HERO CAROUSEL WITH YOUR IMAGES -->
+    <div class="hero">
+      <div class="slides" id="slides">
+        <div class="slide"><img src="my image-10.jpg" alt="Memory 1"></div>
+        <div class="slide"><img src="my image-02.jpg" alt="Memory 2"></div>
+        <div class="slide"><img src="image-03.jpg" alt="Memory 3"></div>
+        <div class="slide"><img src="image-04.jpg" alt="Memory 4"></div>
+      </div>
+      <div class="dots" id="dots">
+        <div class="dot active" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+        <div class="dot" data-i="3"></div>
+      </div>
+    </div>
 
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
+    <div class="body">
+      <h2 class="heading">Dear Roy 💕</h2>
 
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
+      <div class="letter">
+        I don’t think I ever told you just how much you mean to me. Somewhere
+        between all the conversations, the laughter, and the quiet moments,
+        you became someone my heart feels safe with.
 
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
+        <br><br>
 
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
+        You have this way of making ordinary days feel special, and hard days feel lighter.
+        When I think about the moments that truly make me happy, you’re always there —
+        without even trying.
 
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
+        <br><br>
 
-    <h1>nirali will you be my valentine?</h1>
+        So today, I just wanted to be honest with my heart and with you.
+        No big speeches, no perfect words — just something real.
+        I’d love to make this Valentine’s Day a memory we can smile about together.
 
-    <section class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </section>
+        <div class="signature">
+          — With all my heart,<br>
+          Derrick 💖
+        </div>
+      </div>
 
-    <!-- HINT -->
-    <div class="hint" id="hint">“No” seems a bit shy 😈</div>
+      <h2 class="heading" style="margin-top: 0;">Will you be my Valentine? 💘</h2>
 
-    <section class="result" id="result">
-      <h2>YAY! 🎉</h2>
-      <img
-        class="fireworks"
-        src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-        alt="Fireworks"
-      />
-    </section>
-  </main>
+      <div class="cta">
+        <button class="yes" onclick="yesClicked()">Yes 💖</button>
+        <button class="no" id="noBtn" onmouseover="moveButton()">No 🙈</button>
+      </div>
+    </div>
+
+    <!-- IMAGE GALLERY -->
+    <div class="gallery-wrap">
+      <div class="gallery-title">Our little gallery of us ✨</div>
+      <div class="gallery">
+        <div class="tile"><img src="my image-10.jpg" alt="Gallery image 1"></div>
+        <div class="tile"><img src="my image-02.jpg" alt="Gallery image 2"></div>
+        <div class="tile"><img src="image-03.jpg" alt="Gallery image 3"></div>
+        <div class="tile"><img src="image-04.jpg" alt="Gallery image 4"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const zone = document.getElementById("zone");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-    const hint = document.getElementById("hint");
-
-    /* ---------- CONFETTI ---------- */
-    const confettiCanvas = document.getElementById("confettiCanvas");
-
-    function resizeConfettiCanvas() {
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
-      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
+    // --- YES ACTION ---
+    function yesClicked() {
+      document.body.innerHTML = `
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;
+                    background:linear-gradient(135deg,#ff9a9e,#fad0c4);padding:24px;text-align:center;color:#fff;">
+          <div>
+            <h1 style="font-size:clamp(2.2rem,2rem+1.2vw,3rem);margin:0 0 10px;">
+              You just made my heart very happy 💖
+            </h1>
+            <p style="font-size:clamp(1.1rem,1rem+0.6vw,1.6rem);margin:0;">
+              Happy Valentine’s Day, Roy 🌹
+            </p>
+          </div>
+        </div>
+      `;
     }
 
-    resizeConfettiCanvas();
-    window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
+    // --- PLAYFUL NO BUTTON ---
+    function moveButton() {
+      const button = document.getElementById("noBtn");
+      const card = button.closest('.card');
+      const bounds = card.getBoundingClientRect();
+      const maxX = bounds.width - button.offsetWidth - 14;
+      const maxY = 40; // keep nearby for fun
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      button.style.position = "relative";
+      button.style.left = x + "px";
+      button.style.top  = y + "px";
+    }
 
-    const confettiInstance = confetti.create(confettiCanvas, {
-      resize: false,
-      useWorker: true
+    // --- SIMPLE AUTO CAROUSEL + DOT NAV ---
+    const slides = document.getElementById('slides');
+    const dots = Array.from(document.querySelectorAll('.dot'));
+    let index = 0, timer;
+
+    function go(i){
+      index = (i + 4) % 4;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d,di)=> d.classList.toggle('active', di===index));
+    }
+
+    function next(){ go(index+1); }
+
+    function startAuto(){
+      stopAuto();
+      timer = setInterval(next, 3500);
+    }
+    function stopAuto(){ if(timer) clearInterval(timer); }
+
+    dots.forEach(d=>{
+      d.addEventListener('click', ()=>{
+        go(parseInt(d.dataset.i,10));
+        startAuto();
+      });
     });
 
-    function fullScreenConfetti() {
-      const end = Date.now() + 1600;
+    // pause on hover
+    document.querySelector('.hero').addEventListener('mouseenter', stopAuto);
+    document.querySelector('.hero').addEventListener('mouseleave', startAuto);
 
-      (function frame() {
-        confettiInstance({
-          particleCount: 12,
-          spread: 90,
-          startVelocity: 45,
-          ticks: 180,
-          origin: { x: Math.random(), y: Math.random() * 0.3 }
-        });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-
-      setTimeout(() => {
-        confettiInstance({
-          particleCount: 300,
-          spread: 140,
-          startVelocity: 60,
-          ticks: 220,
-          origin: { x: 0.5, y: 0.55 }
-        });
-      }, 300);
-    }
-
-    /* ---------- YES BUTTON GROWS ---------- */
-    let yesScale = 1;
-    function growYes() {
-      yesScale = Math.min(2.2, yesScale + 0.1);
-      yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
-    }
-
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
-    function clamp(n, min, max) {
-      return Math.max(min, Math.min(max, n));
-    }
-
-    function moveNo(px, py) {
-      const z = zone.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
-
-      let dx = (b.left + b.width / 2) - px;
-      let dy = (b.top + b.height / 2) - py;
-      let mag = Math.hypot(dx, dy) || 1;
-      dx /= mag;
-      dy /= mag;
-
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
-
-      newLeft = clamp(newLeft, 0, z.width - b.width);
-      newTop  = clamp(newTop, 0, z.height - b.height);
-
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
-
-      growYes();
-    }
-
-    zone.addEventListener("pointermove", e => {
-      const b = noBtn.getBoundingClientRect();
-      const d = Math.hypot(
-        (b.left + b.width / 2) - e.clientX,
-        (b.top + b.height / 2) - e.clientY
-      );
-      if (d < 140) moveNo(e.clientX, e.clientY);
-    });
-
-    noBtn.addEventListener("click", e => e.preventDefault());
-
-    /* ---------- YES CLICK ---------- */
-    yesBtn.addEventListener("click", () => {
-      zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
-      result.style.display = "block";
-      resizeConfettiCanvas();
-      fullScreenConfetti();
-    });
+    startAuto();
   </script>
 </body>
 </html>
-
-
-
+``
