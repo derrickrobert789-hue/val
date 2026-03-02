@@ -1,0 +1,20 @@
+
+import random
+
+def riddle():
+    text = """
+I whirl with rides that twist the sky,
+Or calm you down where seagulls fly.
+One is loud with splashes and screams,
+One is peace wrapped in blue-green dreams.
+If adventure or calm is what you seek,
+Choose number 1... or choose number 2 this week.
+"""
+    print(text)
+
+def choose_option():
+    choice = random.choice([1, 2])
+    print(f"My choice is: {choice} ({'Wonderla' if choice == 1 else 'The Beach'})")
+
+riddle()
+choose_option()
