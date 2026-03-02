@@ -1,39 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Will you be my Valentine?</title>
 
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+import random
 
-  <style>
-    :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
-    }
+def riddle():
+    text = """
+I whirl with rides that twist the sky,
+Or calm you down where seagulls fly.
+One is loud with splashes and screams,
+One is peace wrapped in blue-green dreams.
+If adventure or calm is what you seek,
+Choose number 1... or choose number 2 this week.
+"""
+    print(text)
 
-    * { box-sizing: border-box; }
+def choose_option():
+    choice = random.choice([1, 2])
+    print(f"My choice is: {choice} ({'Wonderla' if choice == 1 else 'The Beach'})")
 
-    body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, sans-serif;
-      overflow: hidden;
-      padding: 16px;
-    }
+riddle()
+choose_option()
 
-    /* FULL-SCREEN CONFETTI CANVAS */
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
       width: 100vw;
       height: 100vh;
       pointer-events: none;
@@ -300,6 +285,7 @@
   </script>
 </body>
 </html>
+
 
 
 
